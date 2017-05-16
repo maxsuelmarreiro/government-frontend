@@ -5,6 +5,7 @@ module Parts
     raw_parts.each_with_index.map do |part, i|
       # Link to base_path for first part
       part['full_path'] = (i == 0) ? base_path : "#{base_path}/#{part['slug']}"
+      part['full_path'] = "#{part['full_path']}?#{draft_access_token_param}" if draft_access_token
       part
     end
   end

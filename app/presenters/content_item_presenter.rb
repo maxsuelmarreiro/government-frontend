@@ -12,6 +12,8 @@ class ContentItemPresenter
               :part_slug,
               :document_type
 
+  attr_accessor :draft_access_token
+
   def initialize(content_item, requested_content_item_path = nil)
     @content_item = content_item
     @requested_content_item_path = requested_content_item_path
@@ -62,6 +64,10 @@ class ContentItemPresenter
   end
 
 private
+
+  def draft_access_token_param
+    "token=#{draft_access_token}" if draft_access_token
+  end
 
   def display_date(timestamp, format = "%-d %B %Y")
     I18n.l(Time.zone.parse(timestamp), format: format) if timestamp

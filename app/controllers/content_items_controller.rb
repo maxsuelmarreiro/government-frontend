@@ -9,6 +9,7 @@ class ContentItemsController < ApplicationController
 
   def show
     load_content_item
+    set_draft_access_token if draft?
     set_up_education_navigation_ab_testing
     set_expiry
     set_access_control_allow_origin_header if request.format.atom?
@@ -16,6 +17,14 @@ class ContentItemsController < ApplicationController
   end
 
 private
+
+  def draft?
+    ENV["DRAFT_ENVIRONMENT"].present?
+  end
+
+  def set_draft_access_token
+    @content_item.draft_access_token = params[:token]
+  end
 
   def load_content_item
     content_item = content_store.content_item(content_item_path)
